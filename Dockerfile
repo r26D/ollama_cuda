@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
  ca-certificates \
  sudo \
  gnupg \
+ shadow-utils \
  openssh-server \
  && rm -rf /var/lib/apt/lists/*
 
@@ -26,7 +27,8 @@ RUN mkdir -p /workspace/models
 
 
 # Add ollama user with sudo
-RUN useradd -m -s /bin/bash ollama && echo "ollama ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN useradd -m -s /bin/bash -m -d /home/ollama ollama 
+RUN echo "ollama ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/ollama && chmod 644 /etc/sudoers.d/ollama
 
 # Set up SSH
 RUN mkdir /var/run/sshd && \
