@@ -12,9 +12,9 @@ RUN apt-get update && apt-get install -y \
 
 
 # Install Ollama
+ARG OLLAMA_INSTALL_VERSION=v0.9.0
 
-
-RUN OLLAMA_VERSION="v0.9.0" curl -fsSL https://ollama.com/install.sh | sh
+RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/install.sh | sh
 
 # Environment variables
 # ENV OLLAMA_MODELS=/workspace/models

@@ -25,4 +25,5 @@ git tag -a "$TAG_NAME" -m "Release $TAG_NAME"
 git push origin "$TAG_NAME"
 
 echo "Release $TAG_NAME pushed to '$RELEASE_BRANCH' and tagged."
+git checkout main
 
