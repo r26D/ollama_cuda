@@ -1,0 +1,26 @@
+name: Build and Publish Docker Image
+
+on:
+  push:
+    branches: [main]  # Or your desired branch
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Log in to GitHub Packages
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io  # Or your desired registry
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub token for access
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          dockerfile: Dockerfile
+          tags: |
+            ${{ github.actor }}/ollama_cuda:${{ github.sha }}  # Tag with commit SHA
+            ${{ github.actor }}/ollama_cuda:latest  # Add a 'latest' tag
+
