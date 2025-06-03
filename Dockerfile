@@ -1,5 +1,5 @@
 FROM nvidia/cuda:12.3.2-devel-ubuntu22.04 AS ollama-cuda
-LABEL org.opencontainers.image.source=https://github.com/r26D/ollam_cuda
+LABEL org.opencontainers.image.source=https://github.com/r26D/ollama_cuda
 RUN apt-get update && apt-get install -y \
  wget \
  curl \
