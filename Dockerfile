@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
  ca-certificates \
  sudo \
  gnupg \
+ openssh-server \
  && rm -rf /var/lib/apt/lists/*
 
 
@@ -23,9 +24,28 @@ RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/insta
 # Create model storage directory
 RUN mkdir -p /workspace/models
 
+
+# Add ollama user with sudo
+RUN useradd -m -s /bin/bash ollama && echo "ollama ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Set up SSH
+RUN mkdir /var/run/sshd && \
+    mkdir -p /home/ollama/.ssh && \
+    chmod 700 /home/ollama/.ssh
+
+# Copy public key into the authorized_keys
+COPY id_ed25519.r26d-2023.pub /home/ollama/.ssh/authorized_keys
+RUN chmod 600 /home/ollama/.ssh/authorized_keys && \
+    chown -R ollama:ollama /home/ollama/.ssh
+
+
 # Add startup script
 COPY start_ollama.sh /usr/local/bin/start_ollama.sh
 RUN chmod +x /usr/local/bin/start_ollama.sh
 
-# Default entrypoint
-CMD ["/usr/local/bin/start_ollama.sh"]
+
+# Expose SSH and Ollama ports (adjust as needed)
+EXPOSE 22 11434
+
+# Start SSH and Ollama
+CMD service ssh start && /usr/local/bin/start_ollama.sh && tail -f /dev/null
