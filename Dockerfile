@@ -20,13 +20,13 @@ ARG OLLAMA_INSTALL_VERSION=v0.9.0
 RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/install.sh | sh
 
 # Environment variables
-# ENV OLLAMA_MODELS=/workspace/models
+# ENV OLLAMA_MODELS=/workspace/ollama/models
 # ENV OLLAMA_MAX_CTX=65536
 
 # Create model storage directory
 
 # Add ollama user with sudo
-RUN useradd -m -s /bin/bash -d /workspace ollama 
+RUN useradd -s -m /bin/bash -d /workspace/ollama ollama 
 RUN echo "ollama ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/ollama && chmod 644 /etc/sudoers.d/ollama
 
 # Set up SSH
@@ -44,7 +44,7 @@ RUN chmod 600 /home/ollama/.ssh/authorized_keys && \
 COPY start_ollama.sh /usr/local/bin/start_ollama.sh
 RUN chmod +x /usr/local/bin/start_ollama.sh
 
-RUN mkdir -p /workspace/models && chown -R ollama:ollama /workspace
+#RUN mkdir -p /workspace/models && chown -R ollama:ollama /workspace
 
 
 # Expose SSH and Ollama ports (adjust as needed)
