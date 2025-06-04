@@ -30,18 +30,18 @@ RUN mkdir -p /workspace /home
 
 
 # Add ollama user with sudo
-RUN adduser --gecos "" --disabled-password --shell /bin/bash --debug --verbose ollama
+#RUN adduser --gecos "" --disabled-password --shell /bin/bash --debug --verbose ollama
 RUN echo "ollama ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/ollama && chmod 644 /etc/sudoers.d/ollama
 
 # Set up SSH
 RUN mkdir /var/run/sshd && \
-    mkdir -p /home/ollama/.ssh && \
-    chmod 700 /home/ollama/.ssh
+    mkdir -p /usr/share/ollama/.ssh && \
+    chmod 700 /usr/share/ollama/.ssh
 
 # Copy public key into the authorized_keys
-COPY id_ed25519.r26d-2023.pub /home/ollama/.ssh/authorized_keys
-RUN chmod 600 /home/ollama/.ssh/authorized_keys && \
-    chown -R ollama:ollama /home/ollama/.ssh
+COPY id_ed25519.r26d-2023.pub /usr/share/ollama/.ssh/authorized_keys
+RUN chmod 600 /usr/share/ollama/.ssh/authorized_keys && \
+    chown -R ollama:ollama /usr/share/ollama/.ssh
 
 # Add startup script
 COPY start_ollama.sh /usr/local/bin/start_ollama.sh

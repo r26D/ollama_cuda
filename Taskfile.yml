@@ -1,0 +1,13 @@
+version: "3"
+
+tasks:
+  setup_buildx:
+    cmds:
+      - docker buildx build --builder mybuilder --platform linux/amd64,linux/arm64 --load .
+      - docker buildx build --cache-to type=local,dest=/tmp/cache --load .
+  build_image:
+    vars:
+      VERSION: 0.0.1
+    cmds:
+      - docker buildx build -t ghcr.io/r26d/ollama_cuda:{{.VERSION}} .
+
