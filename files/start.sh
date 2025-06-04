@@ -7,6 +7,16 @@ set -e  # Exit the script if any statement returns a non-true return value
 
 #start ollama
 start_ollama() {
+    mkdir -p /workspace/models
+  
+    if [ ! -L /usr/share/ollama/.ollama/models ]; then
+        echo "[+] Linking models to /workspace/models"
+        mkdir -p /usr/share/ollama/.ollama
+        chown -R ollama:ollama /usr/share/ollama/.ollama
+        ln -s /workspace/models/ /usr/share/ollama/.ollama/models
+    else
+        echo "[+] Models already linked"
+    fi
     echo "[+] Starting Ollama server with 64k context..."
     service ollama start
      echo "[+] Pulling model: qwen3:14b..."
@@ -104,7 +114,7 @@ echo "Pod Started"
 
 setup_ssh
 export_env_vars
-#start_ollama
+start_ollama
 
 execute_script "/post_start.sh" "Running post-start script..."
 

@@ -59,8 +59,6 @@ RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/insta
 #RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/install.sh  > /installollama.sh
 
 #Setup ollama environment variabless
-RUN mkdir -p /workspace/models 
-RUN  ln -s /workspace/models/ /usr/share/ollama/.ollama/models
 COPY --chmod=755 files/update-ollama-env.sh /update-ollama-env.sh
 RUN /update-ollama-env.sh /workspace/models 65536
 
