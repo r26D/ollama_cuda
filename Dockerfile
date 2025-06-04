@@ -26,7 +26,7 @@ RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/insta
 # Create model storage directory
 
 # Add ollama user with sudo
-RUN useradd -m -s /bin/bash -m -d /workspace ollama 
+RUN useradd -m -s /bin/bash -d /workspace ollama 
 RUN echo "ollama ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/ollama && chmod 644 /etc/sudoers.d/ollama
 
 # Set up SSH
