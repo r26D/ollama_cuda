@@ -23,11 +23,14 @@ ARG OLLAMA_INSTALL_VERSION=v0.9.0
 RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/install.sh | sh
 
 FROM ollama-install AS ollama-cuda
+USER root
 # Create model storage directory
+
 RUN mkdir -p /workspace /home 
 
+
 # Add ollama user with sudo
-RUN adduser --gecos "" --disabled-password --shell /bin/bash ollama
+RUN adduser --gecos "" --disabled-password --shell /bin/bash --debug --verbose ollama
 RUN echo "ollama ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/ollama && chmod 644 /etc/sudoers.d/ollama
 
 # Set up SSH
