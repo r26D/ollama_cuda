@@ -48,12 +48,18 @@ RUN apt-get update --yes && \
 
 FROM base AS ollama-install
 # Install Ollama
+
+
+
 ARG OLLAMA_INSTALL_VERSION=v0.9.0
 #RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/install.sh | sh
 RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/install.sh  > /installollama.sh
 
 
 FROM ollama-install AS ollama-cuda
+
+ENV OLLAMA_MODELS="/workspace/models"
+ENV OLLAMA_MAX_CTX=65536
 
 
 # Remove existing SSH host keys
@@ -70,9 +76,6 @@ COPY README.md /usr/share/nginx/html/README.md
 COPY --chmod=755 files/start.sh /start.sh
 COPY --chmod=755 files/pre_start.sh /pre_start.sh
 COPY --chmod=755 files/post_start.sh /post_start.sh
-
-#Ensuring ssh key
-#COPY files/id_ed25519.r26d-2023.pub /root/.ssh/r26d.pub
 
 
 # Welcome Message

@@ -5,6 +5,23 @@ set -e  # Exit the script if any statement returns a non-true return value
 #                          Function Definitions                                #
 # ---------------------------------------------------------------------------- #
 
+#start ollama
+start_ollama() {
+
+    # echo "[+] Pulling model: qwen:14b..."
+    # OLLAMA_MODELS=/workspace/models  ollama pull qwen:14b
+    # echo "[+] Pulling model: qwen:32b..."
+    # OLLAMA_MODELS=/workspace/models ollama pull qwen:32b
+    # echo "[+] Pulling model: deepseek-r1:32b..."
+    # OLLAMA_MODELS=/workspace/models ollama pull deepseek-r1:32b
+    # echo "[+] Pulling model: deepseek-r1:14b..."
+    # OLLAMA_MODELS=/workspace/models ollama pull deepseek-r1:14b
+
+    echo "[+] Starting Ollama server with 64k context..."
+    OLLAMA_MODELS=/workspace/models OLLAMA_MAX_CTX=65536 ollama serve
+
+}
+
 # Start nginx service
 start_nginx() {
     echo "Starting Nginx service..."
@@ -89,6 +106,7 @@ echo "Pod Started"
 
 setup_ssh
 export_env_vars
+#start_ollama
 
 execute_script "/post_start.sh" "Running post-start script..."
 
