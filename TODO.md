@@ -1,5 +1,3 @@
 Confirm we can pause and restart.
 
-The password needs to be filled in when we create the server (ahard coded for now)
-CONFIRM cuda activation
-The password portection and proxy not working :(
+the password for the reverse proxy is hard coded - it should be set based on env and replaced
