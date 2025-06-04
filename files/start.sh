@@ -8,6 +8,10 @@ set -e  # Exit the script if any statement returns a non-true return value
 # Start nginx service
 start_nginx() {
     echo "Starting Nginx service..."
+    if [[ -z $OLLAMA_SECRET_API_KEY ]]; then
+        export OLLAMA_SECRET_API_KEY="Ollama FTW!"
+    fi
+    echo "Ollama Secret API Key: $OLLAMA_SECRET_API_KEY"   
     service nginx start
 }
 
