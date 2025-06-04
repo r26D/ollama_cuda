@@ -9,5 +9,5 @@ tasks:
     vars:
       VERSION: 0.0.1
     cmds:
-      - docker buildx build -t ghcr.io/r26d/ollama_cuda:{{.VERSION}} .
+      - docker buildx build -t ghcr.io/r26d/runpod_ollama_cuda:{{.VERSION}} .
 

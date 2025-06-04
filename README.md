@@ -2,6 +2,12 @@
 
 This project provides a Docker container setup for running [Ollama](https://github.com/ollama/ollama) with CUDA support on [RunPod](https://www.runpod.io/). It leverages the container templates and scripts from the [RunPod Containers](https://github.com/runpod/containers) repository to ensure compatibility with the RunPod platform.
 
+
+## Disclaimer
+
+This is an unofficial, community-driven project and is not affiliated with RunPod or Ollama. While this container is designed to work on RunPod's infrastructure, it is independently maintained and not officially supported by RunPod. This project was created to support personal development work with AI agents and is shared with the community in hopes that others might find it useful.
+
+
 ## Overview
 
 The goal of this project is to create an easy-to-use, production-ready Docker container that:
