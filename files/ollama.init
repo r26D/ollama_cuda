@@ -10,13 +10,20 @@
 ### END INIT INFO
 
 # Customize these paths
+# Customize these paths
 OLLAMA_BIN="/usr/local/bin/ollama"
 OLLAMA_USER="ollama"
 OLLAMA_GROUP="ollama"
-OLLAMA_MODELS="${OLLAMA_MODELS:-/workspace/models}"
-OLLAMA_MAX_CTX="${OLLAMA_MAX_CTX:-65536}"
+export OLLAMA_MODELS="${OLLAMA_MODELS:-/workspace/models}"
+export OLLAMA_MAX_CTX="${OLLAMA_MAX_CTX:-65536}"
 PIDFILE="/var/run/ollama.pid"
 LOGFILE="/var/log/ollama.log"
+#Allows direct access to the server
+export OLLAMA_HOST="0.0.0.0:11434"
+
+DAEMON_OPTS="serve"
+
+
 
 DAEMON_OPTS="serve"
 
