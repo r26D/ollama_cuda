@@ -1,33 +1,32 @@
-FROM nvidia/cuda:12.3.2-devel-ubuntu22.04 AS ollama-cuda
+FROM nvidia/cuda:12.3.2-devel-ubuntu22.04 AS base
 LABEL org.opencontainers.image.source=https://github.com/r26D/ollama_cuda
+
+# Install base dependencies
 RUN apt-get update && apt-get install -y \
- wget \
- curl \
- git \
- ca-certificates \
- sudo \
- gnupg \
- passwd \
- gosu \
- openssh-server \
- && rm -rf /var/lib/apt/lists/*
+    wget \
+    curl \
+    git \
+    ca-certificates \
+    sudo \
+    gnupg \
+    passwd \
+    gosu \
+    openssh-server \
+    && rm -rf /var/lib/apt/lists/*
 
 
 
+FROM base AS ollama-install
 # Install Ollama
 ARG OLLAMA_INSTALL_VERSION=v0.9.0
-
 RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/install.sh | sh
 
-# Environment variables
-# ENV OLLAMA_MODELS=/workspace/ollama/models
-# ENV OLLAMA_MAX_CTX=65536
-
+FROM ollama-install AS ollama-cuda
 # Create model storage directory
+RUN mkdir -p /workspace /home 
 
 # Add ollama user with sudo
-RUN mkdir -p /workspace
-RUN useradd --create-home --shell /bin/bash ollama
+RUN useradd --create-home --shell /bin/bash ollama 
 RUN echo "ollama ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/ollama && chmod 644 /etc/sudoers.d/ollama
 
 # Set up SSH
@@ -40,13 +39,9 @@ COPY id_ed25519.r26d-2023.pub /home/ollama/.ssh/authorized_keys
 RUN chmod 600 /home/ollama/.ssh/authorized_keys && \
     chown -R ollama:ollama /home/ollama/.ssh
 
-
 # Add startup script
 COPY start_ollama.sh /usr/local/bin/start_ollama.sh
 RUN chmod +x /usr/local/bin/start_ollama.sh
-
-#RUN mkdir -p /workspace/models && chown -R ollama:ollama /workspace
-
 
 # Expose SSH and Ollama ports (adjust as needed)
 EXPOSE 22 11434
