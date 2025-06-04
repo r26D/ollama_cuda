@@ -27,7 +27,7 @@ RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/insta
 
 # Add ollama user with sudo
 RUN mkdir -p /workspace
-RUN useradd -s -m /bin/bash -d /workspace/ollama ollama 
+RUN useradd -m -s /bin/bash -d /workspace/ollama ollama 
 RUN echo "ollama ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/ollama && chmod 644 /etc/sudoers.d/ollama
 
 # Set up SSH
