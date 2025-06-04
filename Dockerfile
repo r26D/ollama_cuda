@@ -20,8 +20,6 @@ ENV HUGGINGFACE_ASSETS_CACHE="/runpod-volume/.cache/huggingface/assets/"
 # Faster transfer of models from the hub to the container
 ENV HF_HUB_ENABLE_HF_TRANSFER="1"
 
-
-
 # Set the working directory
 WORKDIR /
 
@@ -38,11 +36,24 @@ RUN apt-get update --yes && \
      libgl1 \
      software-properties-common \
      openssh-server \
+     ca-certificates \
+     sudo \
+     gnupg \
+     gosu \
      nginx && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+
+FROM base AS ollama-install
+# Install Ollama
+ARG OLLAMA_INSTALL_VERSION=v0.9.0
+#RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/install.sh | sh
+RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/install.sh  > /installollama.sh
+
+
+FROM ollama-install AS ollama-cuda
 
 
 # Remove existing SSH host keys
