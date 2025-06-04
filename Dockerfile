@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     passwd \
     gosu \
+    adduser \
     openssh-server \
     && rm -rf /var/lib/apt/lists/*
 
@@ -26,7 +27,7 @@ FROM ollama-install AS ollama-cuda
 RUN mkdir -p /workspace /home 
 
 # Add ollama user with sudo
-RUN useradd --create-home --shell /bin/bash ollama 
+RUN adduser --gecos "" --disabled-password --shell /bin/bash ollama
 RUN echo "ollama ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/ollama && chmod 644 /etc/sudoers.d/ollama
 
 # Set up SSH
