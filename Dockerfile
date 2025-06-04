@@ -40,6 +40,9 @@ RUN apt-get update --yes && \
      sudo \
      gnupg \
      gosu \
+     vim \
+     lshw \
+    pciutils \
      nginx && \
     apt-get autoremove -y && \
     apt-get clean && \
@@ -52,8 +55,18 @@ FROM base AS ollama-install
 
 
 ARG OLLAMA_INSTALL_VERSION=v0.9.0
-#RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/install.sh | sh
-RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/install.sh  > /installollama.sh
+RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/install.sh | sh
+#RUN OLLAMA_VERSION=${OLLAMA_INSTALL_VERSION} curl -fsSL https://ollama.com/install.sh  > /installollama.sh
+
+#Setup ollama environment variabless
+RUN mkdir -p /workspace/models 
+RUN  ln -s /workspace/models/ /usr/share/ollama/.ollama/models
+COPY --chmod=755 files/update-ollama-env.sh /update-ollama-env.sh
+RUN /update-ollama-env.sh /workspace/models 65536
+
+COPY --chmod=755 files/ollama.init /etc/init.d/ollama
+RUN update-rc.d ollama defaults
+
 
 
 FROM ollama-install AS ollama-cuda

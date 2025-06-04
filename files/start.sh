@@ -7,18 +7,16 @@ set -e  # Exit the script if any statement returns a non-true return value
 
 #start ollama
 start_ollama() {
-
-    # echo "[+] Pulling model: qwen:14b..."
-    # OLLAMA_MODELS=/workspace/models  ollama pull qwen:14b
-    # echo "[+] Pulling model: qwen:32b..."
-    # OLLAMA_MODELS=/workspace/models ollama pull qwen:32b
-    # echo "[+] Pulling model: deepseek-r1:32b..."
-    # OLLAMA_MODELS=/workspace/models ollama pull deepseek-r1:32b
-    # echo "[+] Pulling model: deepseek-r1:14b..."
-    # OLLAMA_MODELS=/workspace/models ollama pull deepseek-r1:14b
-
     echo "[+] Starting Ollama server with 64k context..."
-    OLLAMA_MODELS=/workspace/models OLLAMA_MAX_CTX=65536 ollama serve
+    service ollama start
+     echo "[+] Pulling model: qwen3:14b..."
+     OLLAMA_MODELS=/workspace/models  ollama pull qwen3:14b
+     echo "[+] Pulling model: qwen3:32b..."
+     OLLAMA_MODELS=/workspace/models ollama pull qwen3:32b
+     echo "[+] Pulling model: deepseek-r1:32b..."
+     OLLAMA_MODELS=/workspace/models ollama pull deepseek-r1:32b
+     echo "[+] Pulling model: deepseek-r1:14b..."
+     OLLAMA_MODELS=/workspace/models ollama pull deepseek-r1:14b
 
 }
 
