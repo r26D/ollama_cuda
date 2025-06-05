@@ -24,6 +24,17 @@ start_ollama() {
      echo "[+] Pulling model: devstral:24b..."
      OLLAMA_MODELS=/workspace/models ollama pull devstral:24b || echo "[-] Failed to pull devstral:24b"
      
+    #Setup the context window sizes
+    echo "[+] Setting up custom models/context window sizes..."
+    mkdir -p /workspace/custom_models
+    echo  -e "FROM qwen3:32b\nPARAMETER num_ctx 40000\n" > /workspace/custom_models/qwen3_32b.big.modelfile
+    echo -e "FROM qwen3:14b\nPARAMETER num_ctx 40000\n" > /workspace/custom_models/qwen3_14b.big.modelfile
+    echo -e "FROM devstral:24b\nPARAMETER num_ctx 1280000\n" > /workspace/custom_models/devstral_24b.big.modelfile
+    ollama create -f /workspace/custom_models/qwen3_32b.big.modelfile qwen3:32b.big
+    ollama create -f /workspace/custom_models/qwen3_14b.big.modelfile qwen3:14b.big
+    ollama create -f /workspace/custom_models/devstral_24b.big.modelfile devstral:24b.big
+
+
     #  echo "[+] Pulling model: deepseek-r1:32b..."
     #  OLLAMA_MODELS=/workspace/models ollama pull deepseek-r1:32b || echo "[-] Failed to pull deepseek-r1:32b"
     #  echo "[+] Pulling model: deepseek-r1:14b..."
