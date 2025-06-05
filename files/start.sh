@@ -21,10 +21,13 @@ start_ollama() {
      OLLAMA_MODELS=/workspace/models ollama pull qwen3:14b || echo "[-] Failed to pull qwen3:14b"
      echo "[+] Pulling model: qwen3:32b..."
      OLLAMA_MODELS=/workspace/models ollama pull qwen3:32b || echo "[-] Failed to pull qwen3:32b"
-     echo "[+] Pulling model: deepseek-r1:32b..."
-     OLLAMA_MODELS=/workspace/models ollama pull deepseek-r1:32b || echo "[-] Failed to pull deepseek-r1:32b"
-     echo "[+] Pulling model: deepseek-r1:14b..."
-     OLLAMA_MODELS=/workspace/models ollama pull deepseek-r1:14b || echo "[-] Failed to pull deepseek-r1:14b"
+     echo "[+] Pulling model: devstral:24b..."
+     OLLAMA_MODELS=/workspace/models ollama pull devstral:24b || echo "[-] Failed to pull devstral:24b"
+     
+    #  echo "[+] Pulling model: deepseek-r1:32b..."
+    #  OLLAMA_MODELS=/workspace/models ollama pull deepseek-r1:32b || echo "[-] Failed to pull deepseek-r1:32b"
+    #  echo "[+] Pulling model: deepseek-r1:14b..."
+    #  OLLAMA_MODELS=/workspace/models ollama pull deepseek-r1:14b || echo "[-] Failed to pull deepseek-r1:14b"
 
 }
 
